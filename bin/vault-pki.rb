@@ -64,7 +64,7 @@ if error
   exit 1
 end
 
-data = result['data]
+data = result['data']
 File.open( certificate_path, File::WRONLY | File::CREAT | File::TRUNC ) { |out|
   out.print( data['certificate'] )
 }

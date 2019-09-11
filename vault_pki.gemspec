@@ -5,7 +5,7 @@ require "vault_pki/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "vault_pki"
-  spec.version       = VaultPki::VERSION
+  spec.version       = VaultPKI::VERSION
   spec.authors       = ["Toshifumi Sakaguchi"]
   spec.email         = ["t-sakaguchi@fusioncom.co.jp"]
 
