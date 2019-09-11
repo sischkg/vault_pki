@@ -1,26 +1,11 @@
 #!/usr/bin/ruby
 
+require 'vault_pki'
 require 'optparse'
 require 'net/http'
 require 'uri'
-require 'etc'
 require 'pp'
 require 'json'
-
-def get_token_from_file()
-  begin
-    passwd = Etc.getpwuid()
-    return File.open( "#{ passwd.dir }/.vault-token" ) { |input|
-      token = input.gets( nil )
-      pp token
-      token
-    }
-    return nil
-  rescue => e
-    pp e
-    return nil
-  end
-end
 
 # Default Variables.
 common_name       = nil
@@ -31,11 +16,7 @@ mount_pki_path    = 'pki'
 certificate_path  = 'certificate.pem'
 intermediate_path = 'intermediate.pem'
 private_key_path  = 'private_key.pem'
-token             = ENV['VAULT_TOKEN']
-
-if token.nil?
-  token = get_token_from_file()
-end
+token             = VaultPKI::get_token()
 
 opt = OptionParser.new
 opt.on( '-n common_name',  '--name',         'common name' )                                    {|v| common_name = v }
@@ -44,9 +25,9 @@ opt.on( '-a address',      '--address',      'Vault address(https://example.com:
 opt.on( '-r role',         '--role',         'the name of the role to create the certificate' ) {|v| role = v }
 opt.on( '-m path',         '--mount',        'mount path for PKI secret engine' )               {|v| mount_pki_path = v }
 opt.on( '-t token',        '--token',        'vault token' )                                    {|v| token = v }
-opt.on( '-c certificate',  '--certificate',  'new certificate path' )                           {|v| certificate_path = v }
-opt.on( '-i intermediate', '--intermediate', 'new intermediate certificate path' )              {|v| intermediate_path = v }
-opt.on( '-p private_key',  '--private',      'new private key path' )                           {|v| private_key_path = v }
+opt.on( '-c certificate',  '--certificate',  'new certificate file path' )                      {|v| certificate_path = v }
+opt.on( '-i intermediate', '--intermediate', 'new intermediate certificate file path' )         {|v| intermediate_path = v }
+opt.on( '-p private_key',  '--private',      'new private key file path' )                      {|v| private_key_path = v }
 argv = opt.parse(ARGV)
 
 if token.nil?

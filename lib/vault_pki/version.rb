@@ -1,3 +1,3 @@
-module VaultPki
+module VaultPKI
   VERSION = "0.1.0"
 end
