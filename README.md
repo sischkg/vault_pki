@@ -18,7 +18,7 @@ $ vault-pki \
    --private www.example.com.priv.pem
 ```
 
-The abeve command is equivalent with following.
+The abeve command is equivalent to following.
 
 ```
 $ vault login
